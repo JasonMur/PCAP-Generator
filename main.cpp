@@ -105,15 +105,15 @@ int main(int argc, char ** argv) {
     i2cTxBuff[0] = 0x80;
     i2cTxBuff[1] = 0x01;  //Reset Fifo pointers
     if(write(i2cHandle, i2cTxBuff, 2)<0)
-	errxit("Writing Phy Address.");
+	errxit("Resetting Fifo.");
     sleep(1);
     i2cTxBuff[1] = 0x02;  //Reset timecode
     if(write(i2cHandle, i2cTxBuff, 2)<0)
-	errxit("Writing Phy Address.");
+	errxit("Resetting epoch timecode.");
     sleep(1);
     i2cTxBuff[1] = 0x00;  //Enable Fifo and timecode
     if(write(i2cHandle, i2cTxBuff, 2)<0)
-	errxit("Writing Phy Address.");
+	errxit("Enabling Fifo and Epoch.");
     epochSeconds = time(NULL);
     sleep(1);
     //mkdir("./data", 0700);
@@ -183,11 +183,11 @@ int main(int argc, char ** argv) {
 		for (byte=0;byte<bytesRead;byte++)
                     printf("%c",pcktBuff[byte]);		
 		printf("\nBytes read = %d with delimeter of %c%c%c%c\n",bytesRead,pcktBuff[bytesRead-4],pcktBuff[bytesRead-3],pcktBuff[bytesRead-2],pcktBuff[bytesRead-1]);
-		getchar();
+		//getchar();
                 while (pcktBuff = (char *)memmem(pcktBuff,bytesRead-(pcktBuff-pcktBuffPtr),pcktDelimeter,4))
 		{
                     printf("Found %c%c%c%c @ Position: %d \n",pcktBuff[0],pcktBuff[1],pcktBuff[2],pcktBuff[3],(int)(pcktBuff-pcktBuffPtr));
-                    getchar();
+                    //getchar();
                     if(*lastPckt && lastPckt<pcktBuff)
                     {
 			printf("\nLast Packet processing...\n");
@@ -212,7 +212,7 @@ int main(int argc, char ** argv) {
             }
 	}
         printf("Closing File...\n");
-        getchar();
+        //getchar();
 	if(fclose(dataFile)<0)
             errxit("Closing data File.");
     }
